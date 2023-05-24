@@ -100,6 +100,7 @@ declare module '$env/static/private' {
 	export const SystemDrive: string;
 	export const SystemRoot: string;
 	export const TAURI_ARCH: string;
+	export const TAURI_DEBUG: string;
 	export const TAURI_FAMILY: string;
 	export const TAURI_PLATFORM: string;
 	export const TAURI_PLATFORM_TYPE: string;
@@ -223,6 +224,7 @@ declare module '$env/dynamic/private' {
 		SystemDrive: string;
 		SystemRoot: string;
 		TAURI_ARCH: string;
+		TAURI_DEBUG: string;
 		TAURI_FAMILY: string;
 		TAURI_PLATFORM: string;
 		TAURI_PLATFORM_TYPE: string;
