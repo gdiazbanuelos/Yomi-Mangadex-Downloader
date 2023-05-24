@@ -1,5 +1,4 @@
 # Yomi Mangadex Downloader
-
 GUI Mangadex API downloader
 
 ![](static/yomi-dl.png)
