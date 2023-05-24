@@ -9,3 +9,8 @@ GUI Mangadex API downloader
 ## Mangadex API
 This is a GUI interface for https://api.mangadex.org/docs/redoc.html#section/
 
+
+## Tech Stack
+- Tauri (https://tauri.app/)
+- Sveltekit (https://kit.svelte.dev/)
+- Axios (https://www.npmjs.com/package/axios)
