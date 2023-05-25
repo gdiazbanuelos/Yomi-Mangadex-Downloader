@@ -13,4 +13,5 @@ This is a GUI interface for https://api.mangadex.org/docs/redoc.html#section/
 - Tauri (https://tauri.app/)
     - NodeJS + Rust
 - Sveltekit (https://kit.svelte.dev/)
+- TailwindCSS (https://tailwindcss.com/)
 - Axios (https://www.npmjs.com/package/axios)
