@@ -17,7 +17,7 @@
     let current_manga_id;
 
     let page_index = 0;
-
+    let isEmpty;
 
     let hide_search = false;
     let hide_chapters = true;
@@ -86,6 +86,12 @@
                 "offset": offset
             }
         });
+
+        if(resp.data.data.length == 0){
+            isEmpty = true;
+        } else {
+            isEmpty = false;
+        }
 
         console.log(resp);
 
@@ -176,8 +182,6 @@
         const element = document.getElementById("manga");
         element.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });    }
 
-
-
 </script>
 
 {#if authed}
@@ -224,14 +228,24 @@
                 <br><br>
             {/each}
 
+
+            {#if isEmpty}
+                <h1>End of Chapters!</h1>
+            {/if}
+
             {#if page_index >= 1}
                 <button on:click={paginateChapters(-1, current_manga_id)} class="mb-4 bg-[#d12a00] hover:bg-[#851b00] text-white font-bold mt-2 py-1 px-1 rounded-full">
                     Previous Chapters
                 </button>
             {/if}
-            <button on:click={paginateChapters(1, current_manga_id)} class="mb-4 bg-[#d12a00] hover:bg-[#851b00] text-white font-bold mt-2 py-1 px-1 rounded-full">
-                Next Chapters
-            </button>
+            {#if page_index >= 0 && !isEmpty}
+                <button on:click={paginateChapters(1, current_manga_id)} class="mb-4 bg-[#d12a00] hover:bg-[#851b00] text-white font-bold mt-2 py-1 px-1 rounded-full">
+                    Next Chapters
+                </button>
+            {/if}
+
+            
+            
         {/if}
     {/if}
 {/if}
