@@ -16,6 +16,8 @@
     let current_manga_title;
     let current_manga_id;
 
+    let page_index = 0;
+
 
     let hide_search = false;
     let hide_chapters = true;
@@ -60,7 +62,7 @@
     }
 
 
-    async function getChapters(mangaID){
+    async function getChapters(mangaID, offset){
         hide_search = true;
         hide_chapters = false;
         current_manga_id = mangaID;
@@ -79,9 +81,13 @@
             method: 'GET',
             url: `${baseUrl}/manga/${mangaID}/feed`,
             params: {
-                ...chapter_finalOrderQuery
+                ...chapter_finalOrderQuery,
+                "limit": 100,
+                "offset": offset
             }
         });
+
+        console.log(resp);
 
         manga_chapters = new Map();
         console.log(resp);
@@ -162,6 +168,16 @@
         console.log(`Downloaded ${data.length} pages.`);
     }
 
+    function paginateChapters(page, mangaID){
+        page_index += page;
+        getChapters(mangaID, page_index * 100);
+
+        
+        const element = document.getElementById("manga");
+        element.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });    }
+
+
+
 </script>
 
 {#if authed}
@@ -178,7 +194,7 @@
     {#if manga_list}
         {#each [...manga_list] as [key, value]}
             {value.title.en}<br>
-            <button on:click={getChapters(key)} class="bg-[#d12a00] hover:bg-[#851b00] text-white font-bold mt-2 py-1 px-2 rounded-full">
+            <button on:click={getChapters(key, 0)} class="bg-[#d12a00] hover:bg-[#851b00] text-white font-bold mt-2 py-1 px-2 rounded-full">
                 Get chapters
             </button>
             <br><br>
@@ -193,7 +209,7 @@
         Home
     </button>
     <br><br>
-    <h1>{manga_list.get(current_manga_id).title.en}</h1>
+    <h1 id="manga">{manga_list.get(current_manga_id).title.en}</h1>
     <p>Manga ID: {current_manga_id}</p>
     <br><br>
     {#if manga_chapters}
@@ -207,13 +223,22 @@
                 </button>
                 <br><br>
             {/each}
+
+            {#if page_index >= 1}
+                <button on:click={paginateChapters(-1, current_manga_id)} class="mb-4 bg-[#d12a00] hover:bg-[#851b00] text-white font-bold mt-2 py-1 px-1 rounded-full">
+                    Previous Chapters
+                </button>
+            {/if}
+            <button on:click={paginateChapters(1, current_manga_id)} class="mb-4 bg-[#d12a00] hover:bg-[#851b00] text-white font-bold mt-2 py-1 px-1 rounded-full">
+                Next Chapters
+            </button>
         {/if}
     {/if}
 {/if}
 
 {#if download_inprogress}
     <div class="justify-center flex">
-        <p>Downloading</p>
+        <p>Downloading to Downloads folder!</p>
         <img src={logo} class="animate-spin h-7 w-7 mr-3 ml-4" alt="..." />
     </div>
 {/if}
